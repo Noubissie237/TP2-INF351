@@ -15,7 +15,7 @@
         <li>Nombre de publication par institution</li>
         <li>Nombre de publication par auteur</li>
         <li>Nombre d'auteur par affiliation</li>
-        <li>L'auteur ayant publié le plus d'article</li>
+        <li>L'auteur ayant publié le plus grand nombre d'article au USA</li>
         <li>Etablissement ayant le plus d'article publié</li>
         <li>Le nombre d'article publié par année</li>
         <li>L'article ayant la plus grande collaboration d'acteurs</li>
