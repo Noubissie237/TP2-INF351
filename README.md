@@ -18,6 +18,7 @@
         <li>L'auteur ayant publié le plus d'article</li>
         <li>Etablissement ayant le plus d'article publié</li>
         <li>Le nombre d'article publié par année</li>
+        <li>L'article ayant la plus grande collaboration d'acteurs</li>
         <li>L'auteur, son établissement, sa ville son pays, ayant publié le plus grand nombre d'article, ainsi que son nombre d'article publié</li>
      </ul>
 </ol>

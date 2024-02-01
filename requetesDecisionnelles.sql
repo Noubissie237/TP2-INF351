@@ -64,8 +64,18 @@ FROM Article
 GROUP BY annee
 ORDER BY annee;
 
+-- 7) L'article ayant la plus grande collaboration d'acteurs
 
--- 7) L'auteur, son établissement, sa ville son pays, ayant publié le plus grand nombre d'article, ainsi que son nombre d'article publié
+SELECT Article.titre AS titre_article, COUNT(Auteur.idAuteur) AS nombre_auteurs
+FROM Article
+JOIN AuteurArticle ON Article.idArticle = AuteurArticle.idArticle
+JOIN Auteur ON AuteurArticle.idAuteur = Auteur.idAuteur
+GROUP BY Article.idArticle
+ORDER BY nombre_auteurs DESC
+LIMIT 1;
+
+
+-- 8) L'auteur, son établissement, sa ville son pays, ayant publié le plus grand nombre d'article, ainsi que son nombre d'article publié
 
 SELECT Auteur.nom AS auteur, Institution.nom AS etablissement, Pays.nom AS pays, COUNT(AuteurArticle.idArticle) AS nombre_articles
 FROM Auteur
