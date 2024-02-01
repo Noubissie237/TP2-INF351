@@ -22,7 +22,7 @@ FROM Affiliation
 LEFT JOIN AuteurFiliation ON Affiliation.idAfiliation = AuteurFiliation.idAfiliation
 GROUP BY Affiliation.idAfiliation;
 
--- par ville te pays
+-- par etablissement et pays
 
 -- SELECT Institution.nom AS etablissement, Pays.nom AS pays, COUNT(AuteurFiliation.idAuteur) AS nombre_auteurs
 -- FROM AuteurFiliation
