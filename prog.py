@@ -24,6 +24,7 @@ cursor = connexion.cursor(buffered=True)
 
 # Definition des requetes
 def requete1() -> None:
+    print("!"*100)
     #Connexion a la bd 
     connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
     # Creation du curseur
@@ -53,10 +54,11 @@ def requete1() -> None:
             print(f"{institution}: {nombre_publications} publications")
     else:
         print("Aucun résultat trouvé.")
-
+    print("!"*100)
     cursor.close()
 
 def requete2() -> None:
+    print("!"*100)
     #Connexion a la bd 
     connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
     # Creation du curseur
@@ -85,10 +87,11 @@ def requete2() -> None:
             print(f"{auteur}: {nombre_publications} publications")
     else:
         print("Aucun résultat trouvé.")
-
+    print("!"*100)
     cursor.close()
 
 def requete3() -> None:
+    print("!"*100)
     #Connexion a la bd 
     connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
     # Creation du curseur
@@ -96,10 +99,12 @@ def requete3() -> None:
 
     # Requête SQL pour afficher le nombre d'auteurs par affiliation
     query = """
-    SELECT Affiliation.idAfiliation, COUNT(AuteurFiliation.idAuteur) AS nombre_auteurs
-    FROM Affiliation
-    LEFT JOIN AuteurFiliation ON Affiliation.idAfiliation = AuteurFiliation.idAfiliation
-    GROUP BY Affiliation.idAfiliation;
+    SELECT Institution.nom AS etablissement, Pays.nom AS pays, COUNT(AuteurFiliation.idAuteur) AS nombre_auteurs
+    FROM AuteurFiliation
+    JOIN Affiliation ON AuteurFiliation.idAfiliation = Affiliation.idAfiliation
+    JOIN Institution ON Affiliation.etablissement = Institution.idInstitution
+    JOIN Pays ON Affiliation.pays = Pays.idPays
+    GROUP BY Institution.nom, Pays.nom;
     """
 
     # Exécuter la requête
@@ -112,14 +117,15 @@ def requete3() -> None:
     if results:
         print("Nombre d'auteurs par affiliation :")
         for result in results:
-            id_afiliation, nombre_auteurs = result
-            print(f"Affiliation {id_afiliation}: {nombre_auteurs} auteurs")
+            etablissement, pays, nombre_auteurs = result
+            print(f"Établissement : {etablissement} | Pays : {pays} | Nombre d'auteurs : {nombre_auteurs}")
     else:
         print("Aucun résultat trouvé.")
-
+    print("!"*100)
     cursor.close()
 
 def requete4() -> None:
+    print("!"*100)
     #Connexion a la bd 
     connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
     # Creation du curseur
@@ -133,7 +139,7 @@ def requete4() -> None:
     JOIN Affiliation ON AuteurFiliation.idAfiliation = Affiliation.idAfiliation
     JOIN Pays ON Affiliation.pays = Pays.idPays
     JOIN AuteurArticle ON Auteur.idAuteur = AuteurArticle.idAuteur
-    WHERE Pays.nom = 'USA'
+    WHERE Pays.nom = ' USA'
     GROUP BY Auteur.idAuteur
     ORDER BY nombre_articles DESC
     LIMIT 1;
@@ -151,10 +157,11 @@ def requete4() -> None:
         print(f"L'auteur ayant publié le plus grand nombre d'articles aux États-Unis est {auteur} avec {nombre_articles} articles.")
     else:
         print("Aucun résultat trouvé.")
-
+    print("!"*100)
     cursor.close()
 
 def requete5() -> None:
+    print("!"*100)
     #Connexion a la bd 
     connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
     # Creation du curseur
@@ -184,10 +191,11 @@ def requete5() -> None:
         print(f"L'établissement ayant le plus d'articles publiés est {etablissement} avec {nombre_articles} articles.")
     else:
         print("Aucun résultat trouvé.")
-
+    print("!"*100)
     cursor.close()
 
 def requete6() -> None:
+    print("!"*100)
     # Requête SQL pour afficher le nombre d'articles publiés par année
     #Connexion a la bd 
     connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
@@ -215,10 +223,11 @@ def requete6() -> None:
             print(f"Année {annee}: {nombre_articles} articles")
     else:
         print("Aucun résultat trouvé.")
-    
+    print("!"*100)
     cursor.close()
 
 def requete7() -> None:
+    print("!"*100)
 
     #Connexion a la bd 
     connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
@@ -248,26 +257,26 @@ def requete7() -> None:
         print(f"L'article avec le plus grand nombre d'auteurs est '{titre_article}' avec {nombre_auteurs} auteurs.")
     else:
         print("Aucun article trouvé.")
-
+    print("!"*100)
     cursor.close()
 
 def requete8() -> None:
+    print("!"*100)
     #Connexion a la bd 
     connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
     # Creation du curseur
     cursor = connexion.cursor(buffered=True)
 
-    # Requête SQL pour afficher l'auteur, son établissement, sa ville et son pays ayant publié le plus grand nombre d'articles
+    # Requête SQL pour afficher l'auteur, son établissement, son pays ayant publié le plus grand nombre d'articles
     query = """
-    SELECT Auteur.nom AS auteur, Institution.nom AS etablissement, Ville.nom AS ville, Pays.nom AS pays, COUNT(AuteurArticle.idArticle) AS nombre_articles
+    SELECT Auteur.nom AS auteur, Institution.nom AS etablissement, Pays.nom AS pays, COUNT(AuteurArticle.idArticle) AS nombre_articles
     FROM Auteur
     JOIN AuteurFiliation ON Auteur.idAuteur = AuteurFiliation.idAuteur
     JOIN Affiliation ON AuteurFiliation.idAfiliation = Affiliation.idAfiliation
     JOIN Institution ON Affiliation.etablissement = Institution.idInstitution
-    JOIN Ville ON Institution.ville = Ville.idVille
     JOIN Pays ON Affiliation.pays = Pays.idPays
     JOIN AuteurArticle ON Auteur.idAuteur = AuteurArticle.idAuteur
-    GROUP BY Auteur.idAuteur, Institution.idInstitution, Ville.idVille, Pays.idPays
+    GROUP BY Auteur.idAuteur, Institution.idInstitution, Pays.idPays
     ORDER BY nombre_articles DESC
     LIMIT 1;
     """
@@ -280,16 +289,15 @@ def requete8() -> None:
 
     # Vérifier si un résultat a été retourné
     if result:
-        auteur, etablissement, ville, pays, nombre_articles = result
+        auteur, etablissement , pays, nombre_articles = result
         print("Auteur ayant publié le plus grand nombre d'articles :")
         print(f"Auteur : {auteur}")
         print(f"Établissement : {etablissement}")
-        print(f"Ville : {ville}")
         print(f"Pays : {pays}")
         print(f"Nombre d'articles publiés : {nombre_articles}")
     else:
         print("Aucun résultat trouvé.")
-
+    print("!"*100)
     cursor.close()
 
 
@@ -452,7 +460,7 @@ finally:
 
     choix = -1
     while choix != 0 :
-        print("Que souhaitez vous afficher ?\n")
+        print("\n\nQue souhaitez vous afficher ?\n")
         print("\t0. Sortir du programme")
         print("\t1. Nombre de publication par institution")
         print("\t2. Nombre de publication par auteur")
@@ -482,5 +490,5 @@ finally:
         if choix == 8:
             requete8()
         if choix == 0:
-            print("Fin du programme ...")
+            print("\n\nFin du programme ...")
 
