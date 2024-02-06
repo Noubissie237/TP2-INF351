@@ -22,15 +22,6 @@ FROM Affiliation
 LEFT JOIN AuteurFiliation ON Affiliation.idAfiliation = AuteurFiliation.idAfiliation
 GROUP BY Affiliation.idAfiliation;
 
--- par etablissement et pays
-
--- SELECT Institution.nom AS etablissement, Pays.nom AS pays, COUNT(AuteurFiliation.idAuteur) AS nombre_auteurs
--- FROM AuteurFiliation
--- JOIN Affiliation ON AuteurFiliation.idAfiliation = Affiliation.idAfiliation
--- JOIN Institution ON Affiliation.etablissement = Institution.idInstitution
--- JOIN Pays ON Affiliation.pays = Pays.idPays
--- GROUP BY Institution.nom, Pays.nom;
-
 
 -- 4) L'auteur ayant publié le plus grand nombre d'article au USA
 

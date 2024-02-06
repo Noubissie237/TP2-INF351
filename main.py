@@ -1,6 +1,9 @@
 import os, mysql.connector
 import matplotlib.pyplot as plt
 
+globalUserName = "root"
+globalPassword = ""
+
 def getNumber(message : str, min : int, max : int) -> int :
     
     try:
@@ -17,7 +20,7 @@ abscisse = []
 ordonnee = [-1]
 
 #Connexion a la bd 
-connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
+connexion = mysql.connector.connect(user=globalUserName, password=globalPassword, host="localhost", database="Entrepot")
 
 # Creation du curseur
 cursor = connexion.cursor(buffered=True)
@@ -26,7 +29,7 @@ cursor = connexion.cursor(buffered=True)
 def requete1() -> None:
     print("!"*100)
     #Connexion a la bd 
-    connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
+    connexion = mysql.connector.connect(user=globalUserName, password=globalPassword, host="localhost", database="Entrepot")
     # Creation du curseur
     cursor = connexion.cursor(buffered=True)
 
@@ -57,10 +60,23 @@ def requete1() -> None:
     print("!"*100)
     cursor.close()
 
+    # Extraire les données de la requête
+    institutions = [result[0] for result in results]
+    nombre_publications = [result[1] for result in results]
+
+    # Créer un graphique à barres
+    plt.bar(institutions, nombre_publications)
+    plt.xlabel("Institution")
+    plt.ylabel("Nombre de publications")
+    plt.title("Nombre de publications par institution")
+
+    # Afficher le graphique
+    plt.show()
+
 def requete2() -> None:
     print("!"*100)
     #Connexion a la bd 
-    connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
+    connexion = mysql.connector.connect(user=globalUserName, password=globalPassword, host="localhost", database="Entrepot")
     # Creation du curseur
     cursor = connexion.cursor(buffered=True)
 
@@ -90,10 +106,25 @@ def requete2() -> None:
     print("!"*100)
     cursor.close()
 
+    import matplotlib.pyplot as plt
+
+    # Extraire les données de la requête
+    auteurs = [result[0] for result in results]
+    nombre_publications = [result[1] for result in results]
+
+    # Créer un graphique à barres
+    plt.bar(auteurs, nombre_publications)
+    plt.xlabel("Auteur")
+    plt.ylabel("Nombre de publications")
+    plt.title("Nombre de publications par auteur")
+
+    # Afficher le graphique
+    plt.show()
+
 def requete3() -> None:
     print("!"*100)
     #Connexion a la bd 
-    connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
+    connexion = mysql.connector.connect(user=globalUserName, password=globalPassword, host="localhost", database="Entrepot")
     # Creation du curseur
     cursor = connexion.cursor(buffered=True)
 
@@ -113,21 +144,29 @@ def requete3() -> None:
     # Récupérer tous les résultats
     results = cursor.fetchall()
 
-    # Vérifier si des résultats ont été retournés
-    if results:
-        print("Nombre d'auteurs par affiliation :")
-        for result in results:
-            etablissement, pays, nombre_auteurs = result
-            print(f"Établissement : {etablissement} | Pays : {pays} | Nombre d'auteurs : {nombre_auteurs}")
-    else:
-        print("Aucun résultat trouvé.")
-    print("!"*100)
-    cursor.close()
+    # Extraire les données de la requête
+    etablissements = [result[0] for result in results]
+    pays = [result[1] for result in results]
+    nombre_auteurs = [result[2] for result in results]
+
+    # Créer une liste de positions pour les barres
+    positions = range(len(etablissements))
+
+    # Créer un diagramme en barres pour visualiser les résultats
+    plt.bar(positions, nombre_auteurs, tick_label=etablissements)
+
+    # Ajouter des étiquettes pour les axes x et y
+    plt.xlabel("Établissement")
+    plt.ylabel("Nombre d'auteurs")
+    plt.title("Nombre d'auteurs par affiliation")
+
+    # Afficher le diagramme en barres
+    plt.show()
 
 def requete4() -> None:
     print("!"*100)
     #Connexion a la bd 
-    connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
+    connexion = mysql.connector.connect(user=globalUserName, password=globalPassword, host="localhost", database="Entrepot")
     # Creation du curseur
     cursor = connexion.cursor(buffered=True)
 
@@ -163,7 +202,7 @@ def requete4() -> None:
 def requete5() -> None:
     print("!"*100)
     #Connexion a la bd 
-    connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
+    connexion = mysql.connector.connect(user=globalUserName, password=globalPassword, host="localhost", database="Entrepot")
     # Creation du curseur
     cursor = connexion.cursor(buffered=True)
 
@@ -198,7 +237,7 @@ def requete6() -> None:
     print("!"*100)
     # Requête SQL pour afficher le nombre d'articles publiés par année
     #Connexion a la bd 
-    connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
+    connexion = mysql.connector.connect(user=globalUserName, password=globalPassword, host="localhost", database="Entrepot")
     # Creation du curseur
     cursor = connexion.cursor(buffered=True)
 
@@ -226,11 +265,30 @@ def requete6() -> None:
     print("!"*100)
     cursor.close()
 
+    # Créer des listes séparées pour les années et les nombres d'articles
+    annees = []
+    nombre_articles = []
+
+    # Parcourir les résultats et ajouter les valeurs aux listes correspondantes
+    for result in results:
+        annee, count = result
+        annees.append(annee)
+        nombre_articles.append(count)
+
+    # Créer un diagramme en secteurs pour visualiser les résultats
+    plt.pie(nombre_articles, labels=annees, autopct='%1.1f%%')
+
+    # Ajouter un titre au diagramme
+    plt.title("Répartition des articles publiés par année")
+
+    # Afficher le diagramme
+    plt.show()
+
 def requete7() -> None:
     print("!"*100)
 
     #Connexion a la bd 
-    connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
+    connexion = mysql.connector.connect(user=globalUserName, password=globalPassword, host="localhost", database="Entrepot")
     # Creation du curseur
     cursor = connexion.cursor(buffered=True)
 
@@ -263,7 +321,7 @@ def requete7() -> None:
 def requete8() -> None:
     print("!"*100)
     #Connexion a la bd 
-    connexion = mysql.connector.connect(user="root", password="", host="localhost", database="Entrepot")
+    connexion = mysql.connector.connect(user=globalUserName, password=globalPassword, host="localhost", database="Entrepot")
     # Creation du curseur
     cursor = connexion.cursor(buffered=True)
 
